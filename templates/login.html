@@ -7,7 +7,7 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Sign In</legend>
         </fieldset>
-        <p style="color:red"><span>{{message}}</a></h2>
+        <p style="color:red"><span>{{message}}</a></p>
           {{form|crispy}}
         <div class="form-group">
             <button href="" class="btn btn-outline-info" type="submit">
@@ -18,4 +18,5 @@
     </div>
     <br><br>
     <h3 style="text-align:center">Don't Have an Account??<a href = "{% url 'register' %}" style="color:red">Create new</a></h3>
+    <h5 style="text-align:center"><a href = "{% url 'reset_password' %}" style="color:red">Reset Password</a></h5>
     {% endblock content %}

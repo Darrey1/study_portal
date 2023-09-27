@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import Note_Form, Todo_form,homework_Form,Books,Login_Form,Register
+from .forms import Note_Form, Todo_form,homework_Form,Books,Login_Form,Register,Reset_Pass
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
@@ -428,6 +428,7 @@ def registration(request):
         form = Register(request.POST)
         if form.is_valid():
             username = request.POST['username']
+            username = str(username).capitalize()
             email = request.POST['email']
             password = request.POST['password']
             confirm = request.POST['confirm_password']
@@ -452,6 +453,7 @@ def login_(request):
         form = Login_Form(request.POST)
         if form.is_valid():
             username = request.POST['username']
+            username = str(username).capitalize()
             password = request.POST['password']
             user = authenticate(username=username, password=password)
             if user is not None:
@@ -473,4 +475,32 @@ def user_logout(request):
     return redirect('home')
 def confirm_logout(request):
     return render(request, 'delogout.html')
+
+#password reset form
+def reset_password(request):
+    if request.method == 'POST':
+        form = Reset_Pass(request.POST)
+        if form.is_valid():
+            username = request.POST['Former_username']
+            password = request.POST['new_password']
+            confirm_password = request.POST['confirm_pass']
+            if password == confirm_password:
+                if User.objects.filter(username=username).exists():
+                   user = User.objects.get(username=username)
+                   user.set_password(password)
+                   user.save()
+                   return redirect('login')
+                else:
+                    message = f'*{username} doesn\'t exist,enter your account username'
+            else:
+                message ='*The two password doesn\'t match'
+        return render(request, 'reset.html', {'form':form, 'message':message})
+    else:
+        form = Reset_Pass()
+        return render(request, 'reset.html', {'form':form})
+    
+# end 
+            
+            
+                    
 

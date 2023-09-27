@@ -38,4 +38,6 @@ urlpatterns = [
     #logout
     path('logout',views.user_logout, name='logout'),
     path('confirm_logout', views.confirm_logout, name='confirm_logout'),
+    #reset password
+    path('reset_password', views.reset_password, name='reset_password'),
 ]
