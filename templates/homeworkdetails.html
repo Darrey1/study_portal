@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+{% load tz%}
+
+<section class='text-center container'>
+
+    <div class="container">
+
+        <div class="content-section p-0 mt-1">
+
+            <div class="m-0">
+                <p style="color:red">Subject:{{detail.subject|upper}}</p>
+                <h4>{{detail.title|upper}}</h4>
+            </div>
+
+            <hr class="p-0 m-0">
+            <p class="description m-5 p-5">
+                {{detail.description}}
+            </p>
+            <hr>
+            <div class="m-0">
+                <p style="color:red">Due_date:{{detail.due_date|date:"F j, Y" }}</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock content %}

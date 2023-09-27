@@ -1,0 +1,68 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+
+<div class="container">
+    {% if not finished%}
+    <table class="table table-striped table-bordered table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+       {% for info in infos%}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{info.title}}</td>
+                <td>{{info.due_date}}</td>
+                <td>
+                <form method="POST">
+                    {%csrf_token%}
+                    {% if today > info.due_date|date:"Y-m-d" and info.status != True %}
+                    <a href="{%url 'update_status' info.id%}"><span class="badge badge-danger">incompleted</span></a>
+                    {% elif today == info.due_date|date:"Y-m-d" and info.status != True %}
+                    <a href="{%url 'update_status' info.id%}"><span class="badge badge-warning">deadline today</span></a>
+                    {%elif info.status == True%}
+                    <a href="{%url 'update_status' info.id%}"><span class="badge badge-success">Completed</span></a>
+                    {% else %}
+                
+                    <a href="{%url 'update_status' info.id%}"><span class="badge badge-warning">Pending</span></a>
+                            {% endif %}
+                   
+                </form>
+            </td>
+                
+                
+                <td>
+                    <a href="{%url 'edit_todo' info.id%}"><button class="btn btn-primary btn-sm">Edit</button><a/>
+                    <a href="{%url 'delete_conf' info.id%}"><button class="btn btn-danger btn-sm">Delete</button><a/>
+                </td>
+            </tr>
+        {%endfor%}
+           
+            <!-- Add more homework assignments as needed -->
+        </tbody>
+    </table>
+    {% else%}
+    <h4>All tasks have been done!! create to add more</h4>
+    {%endif%}
+    <br><br>
+    <div class="container">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Create Todo</legend>
+        </fieldset>
+          
+        <div class="form-group">
+            <a href="{%url 'create_todo'%}"><button  class="btn btn-outline-info">
+                Create
+            </button></a>
+        </div>
+    </div>
+                </div>
+
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+<section class='text-center container'>
+    <h2>Search books and browse your favorite</h2>
+    <p>just enter the search query to obtain the results</p><b></b>
+    <form action="" method="POST">
+        {%csrf_token%}
+        {{form}}
+        <input class="btn btn-danger" type="submit" value="Submit">
+    </form><br>
+    {% if not error%}
+    {%for book in lists%}
+    <a href="{{book.link}}" target="_blank">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img class="img-fluid" src="{{book.image}}" alt="">
+
+                    </div>
+                    <div class="col-md-9">
+                        <h3 class="p-0 m-0">{{book.title}}</h3>
+                        <b>
+                            <u>
+                                <h5 class="p-0 m-0">{{bool.subtitle}}</h5>
+                            </u>
+                        </b>
+                        <h6 class="p-0 m-1">{{book.description}}</h6>
+                        <b> 
+                            <h6 class="ml-0 mt-3"><span>Category:</span>{{book.category}}</h6>
+                            <h6 class="ml-0 mt-1"><span>Pages:</span>{{book.page_count}}</h6>
+                            <h6 class="ml-0 mt-1"><span>Ratings:</span>{{book.rating}}</h6>
+                        </b>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </a>
+    <br>
+    {% endfor%}
+    {%elif error%}
+    <h2 style="color:red"><b>Error:</b>{{error}} enter correct word and check your internet connection. </h2>
+   
+    {%endif%}
+</section>
+
+
+{% endblock content %}
